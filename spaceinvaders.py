@@ -8,10 +8,14 @@ pygame.display.set_caption("Space Invaders")
 
 #Sprite imports
 player1 = pygame.image.load('player.PNG')
+alien_1 = [pygame.image.load('alien_11.PNG'), pygame.image.load('alien_12.PNG')]
+alien_2 = [pygame.image.load('alien_21.PNG'), pygame.image.load('alien_22.PNG')]
+alien_3 = [pygame.image.load('alien_31.PNG'), pygame.image.load('alien_32.PNG')]
 
 #sounds
 lasersound = pygame.mixer.Sound('shoot.wav')
 hitsound = pygame.mixer.Sound('invaderkilled.wav')
+gameoversound = pygame.mixer.Sound('Roblox_Death.wav')
 
 
 #music = pygame.mixer.music.load('')
@@ -28,19 +32,25 @@ class player():
         self.x_char = x_char
         self.y_char = y_char
         self.vel = 5
-        self.hitbox = (self.x + 20, self.y, 28, 60)
+        self.hitbox = (self.x, self.y + 10, 70, 50)
 
     def draw(self, wn):
         wn.blit(player1, (self.x, self.y))
-        self.hitbox = (self.x + 20, self.y, 28, 60)
+        self.hitbox = (self.x, self.y + 10, 70, 50)
         pygame.draw.rect(wn, (255,0,0), self.hitbox, 2)
 
     def hit(self):
+        wn.fill((0,0,0))
+        pygame.display.update()
         font1 = pygame.font.SysFont('comicsans', 100)
         text = font1.render('OOOOOF', 1, (255, 0, 0))
-        win.blit(text, (wn_x - (text.get_width()/2),(wn_y - (text.get_height()/2))))
+        wn.blit(text, (wn_x/2 - (text.get_width()/2),(wn_y/2 - (text.get_height()/2))))
         pygame.display.update()
-        sleep(100)
+        i = 0
+        while 1 < 200:
+            pygame.time.delay(10)
+            i+=1
+
 
 
 class projectile():
@@ -56,9 +66,6 @@ class projectile():
     def draw(self, wn):
         pygame.draw.rect(wn, self.colour, (self.x, self.y, self.width, self.height))
 
-alien_1 = [pygame.image.load('alien_11.PNG'), pygame.image.load('alien_12.PNG')]
-alien_2 = [pygame.image.load('alien_21.PNG'), pygame.image.load('alien_22.PNG')]
-alien_3 = [pygame.image.load('alien_31.PNG'), pygame.image.load('alien_32.PNG')]
 
 
 #WALK COUNT FOR aliens change 1 fps between the two
@@ -76,7 +83,7 @@ class npc():
         self.path = [self.x, self.end]
         self.step = 0
         self.vel = 3
-        self.hitbox = (self.x + 20, self.y, 28, 60)
+        self.hitbox = (self.x, self.y, 60, 45)
         self.life = 0
         self.visible = True
         self.alien_type = alien_type
@@ -90,7 +97,7 @@ class npc():
             if self.vel != 0:
                 wn.blit(self.alien_type[self.step//15], (self.x,self.y))
                 self.step += 1
-            self.hitbox = (self.x + 20, self.y, 28, 60)
+            self.hitbox = (self.x, self.y, 60, 45)
             pygame.draw.rect(wn, (255,0,0), self.hitbox, 2)
 
 
@@ -99,14 +106,14 @@ class npc():
             if self.x + self.vel < self.path[1]:
                 self.x += self.vel
             else:
-                self.vel = self.vel *-1.1
+                self.vel = self.vel *-1.5
                 self.y+=40
                 self.step = 0
         else:
             if self.x - self.vel > self.path[0]:
                 self.x += self.vel
             else:
-                self.vel = self.vel *-1.1
+                self.vel = self.vel *-1.5
                 self.y+=40
                 self.step = 0
 
@@ -156,6 +163,14 @@ while run:
     if lasertime > 15:
         lasertime = 0
 
+    for aliens in alienzzz:
+        if buddy.hitbox[1] < aliens.hitbox[1] + aliens.hitbox[3] and buddy.hitbox[1] + buddy.hitbox[3]  > aliens.hitbox[1]:
+            if buddy.hitbox[0] + buddy.hitbox[2] > aliens.hitbox[0]  and buddy.hitbox[0] < aliens.hitbox[0] + aliens.hitbox[2]:
+                #hitsound.play()
+                gameoversound.play()
+                buddy.hit()
+                gameoversound.play()
+
     for laser in lasers:
         for aliens in alienzzz:
             if aliens.visible == True:
@@ -163,6 +178,7 @@ while run:
                     if laser.x + laser.width > aliens.hitbox[0] and laser.x - laser.width < aliens.hitbox[0] + aliens.hitbox[2]:
                         hitsound.play()
                         aliens.hit()
+                        #syntax laser hits 2 aliends
                         lasers.pop(lasers.index(laser))
                         score += 1
 
@@ -170,6 +186,7 @@ while run:
             laser.y -= laser.vel
         else:
             lasers.pop(lasers.index(laser))
+
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_a] and buddy.x > buddy.vel:
