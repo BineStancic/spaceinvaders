@@ -8,9 +8,6 @@ pygame.display.set_caption("Space Invaders")
 
 #Sprite imports
 player1 = pygame.image.load('player.PNG')
-alien_1 = [pygame.image.load('alien_11.PNG'), pygame.image.load('alien_12.PNG')]
-alien_2 = [pygame.image.load('alien_21.PNG'), pygame.image.load('alien_22.PNG')]
-alien_3 = [pygame.image.load('alien_31.PNG'), pygame.image.load('alien_32.PNG')]
 
 clock = pygame.time.Clock()
 
@@ -33,22 +30,35 @@ class projectile():
         self.y = y
         self.width = width
         self.height = height
+        #self.radius = radius
+        self.colour = colour
         self.vel = 8
 
-    def draw(wn):
-        pygame.draw.rectangle(win, self. colour, (self.x, self.y), (self.width, self.height))
+    def draw(self, wn):
+        pygame.draw.rect(wn, self.colour, (self.x, self.y, self.width, self.height))
 
 
 
 #WALK COUNT FOR aliens change 1 fps between the two
-#class npc():
-#    def __init__(self,....)
+class npc():
+    alien_1 = [pygame.image.load('alien_11.PNG'), pygame.image.load('alien_12.PNG')]
+    alien_2 = [pygame.image.load('alien_21.PNG'), pygame.image.load('alien_22.PNG')]
+    alien_3 = [pygame.image.load('alien_31.PNG'), pygame.image.load('alien_32.PNG')]
 
+    def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.step = 0
+        self.vel = 3
 
 #draw function
 def DrawGame():
     wn.fill((0,0,0))
     buddy.draw(wn)
+    for laser in lasers:
+        laser.draw(wn)
     pygame.display.update()
 
 #main loop
@@ -64,9 +74,9 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
-    for lasers in lasers:
-        if laser.y < 500 and laser.y > 0:
-            laser.y += laser.vel
+    for laser in lasers:
+        if laser.y < wn_y and laser.y > 0:
+            laser.y -= laser.vel
         else:
             lasers.pop(lasers.index(laser))
 
@@ -78,8 +88,8 @@ while run:
 
     if keys[pygame.K_SPACE]:
         if len(lasers) < 5:
-            lasers.append(projectile(buddy.x))
-
+            lasers.append(projectile((buddy.x + buddy.x_char //2), (buddy.y-10), 7, 20, (220,220,220)))
+            #print(round(buddy.x + buddy.x_char //2))
 
 
 
