@@ -39,7 +39,7 @@ class player():
     def draw(self, wn):
         wn.blit(player1, (self.x, self.y))
         self.hitbox = (self.x, self.y + 10, 70, 50)
-        pygame.draw.rect(wn, (255,0,0), self.hitbox, 2)
+        #pygame.draw.rect(wn, (255,0,0), self.hitbox, 2)
 
     def hit(self):
         wn.fill((0,0,0))
@@ -106,7 +106,7 @@ class npc():
                 wn.blit(self.alien_type[self.step//15], (self.x,self.y))
                 self.step += 1
             self.hitbox = (self.x, self.y, 50, 45)
-            pygame.draw.rect(wn, (255,0,0), self.hitbox, 2)
+            #pygame.draw.rect(wn, (255,0,0), self.hitbox, 2)
 
 
     def move(self):
