@@ -226,8 +226,8 @@ while run:
         else:
             lasers.pop(lasers.index(laser))
 
-###ALIENS Shooting projectiles back
-'''
+    ###ALIENS Shooting projectiles back
+    '''
     if alien_lasertime > 0:
         alien_lasertime += 1
     if alien_lasertime > 15:
@@ -248,7 +248,7 @@ while run:
             alien_laser.y -= alien_laser.vel
         else:
             alien_lasers.pop(alien_lasers.index(alien_laser))
-'''
+    '''
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_a] and buddy.x > buddy.vel:
