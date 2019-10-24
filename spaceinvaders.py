@@ -2,7 +2,6 @@ import pygame
 import random
 pygame.init()
 
-
 wn_x,wn_y = (600,600)
 wn = pygame.display.set_mode((wn_x,wn_y))
 pygame.display.set_caption("Space Invaders")
@@ -18,7 +17,6 @@ menu = pygame.image.load('menu_image.png')
 lasersound = pygame.mixer.Sound('shoot.wav')
 hitsound = pygame.mixer.Sound('invaderkilled.wav')
 gameoversound = pygame.mixer.Sound('Roblox_Death.wav')
-
 
 #music = pygame.mixer.music.load('')
 #pygame.mixer.music.play(-1)
@@ -58,9 +56,6 @@ class player():
             #if keys[pygame.K_SPACE]:
             #    break
 
-
-
-
 class projectile():
     def __init__(self, x, y, width, height, colour):
         self.x = x
@@ -73,8 +68,6 @@ class projectile():
 
     def draw(self, wn):
         pygame.draw.rect(wn, self.colour, (self.x, self.y, self.width, self.height))
-
-
 
 #WALK COUNT FOR aliens change 1 fps between the two
 class npc():
