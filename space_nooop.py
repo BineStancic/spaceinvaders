@@ -1,18 +1,18 @@
-import pygame
-pygame.init()
+import pygame as pyg
+pyg.init()
 
 
 wn_x,wn_y = (500,500)
-wn = pygame.display.set_mode((wn_x,wn_y))
-pygame.display.set_caption("Space Invaders")
+wn = pyg.display.set_mode((wn_x,wn_y))
+pyg.display.set_caption("Space Invaders")
 
 #Sprite imports
-player = pygame.image.load('player.PNG')
-alien_1 = [pygame.image.load('alien_11.PNG'), pygame.image.load('alien_12.PNG')]
-alien_2 = [pygame.image.load('alien_21.PNG'), pygame.image.load('alien_22.PNG')]
-alien_3 = [pygame.image.load('alien_31.PNG'), pygame.image.load('alien_32.PNG')]
+player = pyg.image.load('player.PNG')
+alien_1 = [pyg.image.load('alien_11.PNG'), pyg.image.load('alien_12.PNG')]
+alien_2 = [pyg.image.load('alien_21.PNG'), pyg.image.load('alien_22.PNG')]
+alien_3 = [pyg.image.load('alien_31.PNG'), pyg.image.load('alien_32.PNG')]
 
-clock = pygame.time.Clock()
+clock = pyg.time.Clock()
 
 
 x,y = (50,440)
@@ -36,23 +36,23 @@ def DrawGame():
 
 
     #wn.blit(player, (x,y))
-    pygame.display.update()
+    pyg.display.update()
 
 #main loop
 run = True
 while run:
     clock.tick(30)
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+    for event in pyg.event.get():
+        if event.type == pyg.QUIT:
             run = False
 
-    keys = pygame.key.get_pressed()
+    keys = pyg.key.get_pressed()
 
-    if keys[pygame.K_a] and x > vel:
+    if keys[pyg.K_a] and x > vel:
         x -= vel
         step = True
-    elif keys[pygame.K_d] and x < wn_x - x_char - vel:
+    elif keys[pyg.K_d] and x < wn_x - x_char - vel:
         x += vel
         step = True
     else:
@@ -60,10 +60,10 @@ while run:
         walkCount = 0
 
     if not(isShoot):
-        if keys[pygame.K_SPACE]:
+        if keys[pyg.K_SPACE]:
             isShoot = True
 
 
     DrawGame()
 
-pygame.quit()
+pyg.quit()
